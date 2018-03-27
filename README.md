@@ -1,0 +1,1 @@
+# redux-persist-sqlite-storage
