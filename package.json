@@ -1,0 +1,19 @@
+{
+  "name": "redux-persist-sqlite-storage",
+  "version": "1.0.0",
+  "description": "Redux persist adaptor for SQLite storage",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prsn/redux-persist-sqlite-storage.git"
+  },
+  "author": "prsn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prsn/redux-persist-sqlite-storage/issues"
+  },
+  "homepage": "https://github.com/prsn/redux-persist-sqlite-storage#readme"
+}
