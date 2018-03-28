@@ -10,6 +10,15 @@
  */
 
 const noop = () => {}
+const rejectPromise = new Promise((resolve, reject) => {
+  reject('Operation is not allowed when DB is closed!')
+});
+const nullDB = {
+  getItem: rejectPromise,
+  setItem: rejectPromise,
+  removeItem: rejectPromise,
+  getAllKeys: rejectPromise
+}
 
 export function SQLiteStorage(SQLite = {}, config = {}) {
   let database = null;
@@ -18,18 +27,8 @@ export function SQLiteStorage(SQLite = {}, config = {}) {
     location: 'default'
   };
 
-  SQLite.openDatabase({...defaultConfig, ...config}, (db) => {
-    database = db;
-    database.transaction( tx => {
-      tx.executeSql(`CREATE TABLE IF NOT EXISTS store (key, value)`);
-    }, error => console.log('Unable to create table', error));
-  }, error => console.log('Unable to open database', error));
-
   function getItem(key, cb = noop) {
     return new Promise((resolve, reject) => {
-      if (database === null) {
-        reject('Database not opened yet');
-      }
       database.transaction((tx) => {
         tx.executeSql(
           'SELECT value FROM store WHERE key=?', [key],
@@ -48,21 +47,17 @@ export function SQLiteStorage(SQLite = {}, config = {}) {
   
   function setItem(key, value, cb = noop) {
     return new Promise((resolve, reject) => {
-      if (database === null) {
-        reject('Database not opened yet');
-      }
       database.transaction((tx) => {
         tx.executeSql(
           'SELECT count(*) as count FROM store WHERE key=?',
           [key],
           (tx, rs) => {
             if (rs.rows.item(0).count == 1) {
-              // execute update statement
               tx.executeSql(
                 'UPDATE store SET value=? WHERE key=?',
                 [value, key],
                 () => resolve(value),
-                (tx, err) => reject('updation failed', err)
+                (tx, err) => reject('unable to set value', err)
               );
             } else {
               tx.executeSql(
@@ -83,10 +78,6 @@ export function SQLiteStorage(SQLite = {}, config = {}) {
   
   function removeItem(key, cb = noop) {
     return new Promise((resolve, reject) => {
-      console.log('persist: removeItem called');
-      if (database === null) {
-        reject('Database not opened yet');
-      }
       database.transaction((tx) => {
         tx.executeSql(
           'DELETE FROM store WHERE key=?', [key],
@@ -96,6 +87,7 @@ export function SQLiteStorage(SQLite = {}, config = {}) {
           },
           (tx, err) => {
             reject('unable to remove key', err);
+            cb(err, 'unable to remove key');
           }
         );
       });
@@ -104,10 +96,6 @@ export function SQLiteStorage(SQLite = {}, config = {}) {
   
   function getAllKeys(cb = noop) {
     return new Promise((resolve, reject) => {
-      console.log('persist: getAllKeys called');
-      if (database === null) {
-        reject('Database not opened yet');
-      }
       database.transaction((tx) => {
         tx.executeSql(
           'SELECT * FROM store', [],
@@ -120,17 +108,39 @@ export function SQLiteStorage(SQLite = {}, config = {}) {
             cb(null, result);
           },
           (tx, err) => {
-            reject('unable to remove key', err);
+            reject('unable to get keys', err);
+            cb(err, 'unable to get keys');
           }
         );
       });
     });
   }
 
-  return {
+  let api = {
     getItem,
     setItem,
     removeItem,
     getAllKeys
+  }
+
+  SQLite.openDatabase({...defaultConfig, ...config}, (db) => {
+    database = db;
+    database.transaction( tx => {
+      tx.executeSql(`CREATE TABLE IF NOT EXISTS store (key, value)`);
+    }, error => {
+      api = nullDB;
+      console.log('Unable to create table', error);
+    });
+  }, error => {
+    api = nullDB;
+    console.log('Unable to open database', error)
+  });
+  
+
+  return {
+    getItem: (...args) => api.getItem(...args),
+    setItem: (...args) => api.setItem(...args),
+    removeItem: (...args) => api.removeItem(...args),
+    getAllKeys: (...args) => api.getAllKeys(...args)
   }
 };
