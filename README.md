@@ -4,10 +4,10 @@ A redux-persist store engine that uses SQLite database to persist store.
 
 # Motivation
 
-By default redux-persist uses AsyncStorage as storage engine. Any RN apps which has huge data, experience performance issue a lot.
+By default redux-persist uses `AsyncStorage` as storage engine. Any RN apps which has huge data, experience performance issue a lot.
 This is a work around to overcome AsyncStorage performance limitaton in RN applications.
 
-Foundation of this library is based on Chris Brody's Cordova SQLite plugin.
+Foundation of this library is based on Chris Brody's `Cordova SQLite plugin` and `react-native-sqlite-storage`.
 
 # Instal
 ```bash
@@ -51,12 +51,21 @@ const defaultConfig = {
 The object return by `SQLiteStorage` function has 4 methods and each of the method returns `Promise` as well as call callback upon completion of any operation (compatable with redux-persist 5.x.x version)
 
 Following functions are supported
-- getItem(key: string, [callback]: ?(error: ?Error, result: ?string) => void)
-- setitem(key: string, value: string, [callback]: ?(error: ?Error) => void)
-- removeItem(key: string, [callback]: ?(error: ?Error) => void)
-- getAllKeys([callback]: ?(error: ?Error, keys: ?Array<string>) => void)
 
-Above methods confirms to AsyncStorage method signatures
+```Javascript
+getItem(key: string, [callback]: ?(error: ?Error, result: ?string) => void)
+```
+```Javascript
+setitem(key: string, value: string, [callback]: ?(error: ?Error) => void)
+```
+```Javascript
+removeItem(key: string, [callback]: ?(error: ?Error) => void)
+```
+```Javascript
+getAllKeys([callback]: ?(error: ?Error, keys: ?Array<string>) => void)
+```
+
+Above methods confirms to `AsyncStorage` method signatures
 
 # Future enhancements
 Will support all of the methods supported by AsyncStorage.
