@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "env",
+    "stage-3"
+  ],
+  "plugins": [
+    ["transform-class-properties", { "spec": true }],
+    "transform-flow-strip-types",
+    "transform-runtime"
+  ]
+}

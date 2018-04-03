@@ -20,7 +20,7 @@ const nullDB = {
   getAllKeys: rejectPromise
 }
 
-export function SQLiteStorage(SQLite = {}, config = {}) {
+export default function SQLiteStorage(SQLite = {}, config = {}) {
   let database = null;
   const defaultConfig = {
     name: 'sqlite-storage',
@@ -122,7 +122,6 @@ export function SQLiteStorage(SQLite = {}, config = {}) {
     removeItem,
     getAllKeys
   }
-
   SQLite.openDatabase({...defaultConfig, ...config}, (db) => {
     database = db;
     database.transaction( tx => {
