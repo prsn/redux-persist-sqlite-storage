@@ -7,7 +7,7 @@ A redux-persist store engine that uses SQLite database to persist store.
 By default redux-persist uses `AsyncStorage` as storage engine. Any RN apps which has huge data, experience performance issue a lot.
 This is a work around to overcome AsyncStorage performance limitaton in RN applications.
 
-Foundation of this library is based on Chris Brody's `Cordova SQLite plugin` and `react-native-sqlite-storage`.
+This library is inspired by Chris Brody's `Cordova SQLite plugin` and `react-native-sqlite-storage`.
 
 # Instal
 ```bash
