@@ -10,7 +10,7 @@
  */
 
 const noop = () => {}
-const rejectPromise = new Promise((resolve, reject) => {
+const rejectPromise = () => new Promise((resolve, reject) => {
   reject('Operation is not allowed when DB is closed!')
 });
 const nullDB = {
