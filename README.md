@@ -16,8 +16,8 @@ npm install --save redux-persist-sqlite-storage
 
 # Usages
 First configure SQLite from below links based on your requirement
-1. https://github.com/andpor/react-native-sqlite-storage - react-native
-2. https://github.com/litehelpers/Cordova-sqlite-storage
+1. https://github.com/andpor/react-native-sqlite-storage - react-native (tested)
+2. https://github.com/litehelpers/Cordova-sqlite-storage - (not tested yet)
 
 Follow below steps after you have successfully configured the SQLite
 
