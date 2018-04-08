@@ -122,8 +122,8 @@ export default function SQLiteStorage(SQLite = {}, config = {}) {
     removeItem,
     getAllKeys
   }
-  SQLite.openDatabase({...defaultConfig, ...config}, (db) => {
-    database = db;
+  
+  database = SQLite.openDatabase({...defaultConfig, ...config}, (db) => {
     database.transaction( tx => {
       tx.executeSql(`CREATE TABLE IF NOT EXISTS store (key, value)`);
     }, error => {

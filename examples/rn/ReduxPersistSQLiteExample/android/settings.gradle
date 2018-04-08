@@ -1,0 +1,3 @@
+rootProject.name = 'ReduxPersistSQLiteExample'
+
+include ':app'

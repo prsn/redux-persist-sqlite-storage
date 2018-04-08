@@ -1,3 +1,4 @@
+# Library is not ready yet, performing tests over various version
 # redux-persist-sqlite-storage
 
 A redux-persist store engine that uses SQLite database to persist store.
@@ -69,3 +70,6 @@ Above methods confirms to `AsyncStorage` method signatures
 
 # Future enhancements
 Will support all of the methods supported by AsyncStorage.
+
+# Tested under following enviornments
+1. `redux-persist@4.5.0`
