@@ -17,7 +17,8 @@ const nullDB = {
   getItem: rejectPromise,
   setItem: rejectPromise,
   removeItem: rejectPromise,
-  getAllKeys: rejectPromise
+  getAllKeys: rejectPromise,
+  clear: rejectPromise
 }
 
 export default function SQLiteStorage(SQLite = {}, config = {}) {
@@ -108,11 +109,25 @@ export default function SQLiteStorage(SQLite = {}, config = {}) {
             cb(null, result);
           },
           (tx, err) => {
-            reject('unable to get keys', err);
-            cb(err, 'unable to get keys');
+            resolve([]);
+            cb(null, []);
           }
         );
       });
+    });
+  }
+
+  function clear(cb = noop) {
+    return new Promise((resolve, reject) => {
+      database.transaction(tx => {
+        tx.executeSql('DELETE FROM store', [], () => {
+          resolve(null);
+          cb(null);
+        }, (tx, err) => {
+          reject(err);
+          cb(err);
+        });
+      })
     });
   }
 
@@ -120,7 +135,8 @@ export default function SQLiteStorage(SQLite = {}, config = {}) {
     getItem,
     setItem,
     removeItem,
-    getAllKeys
+    getAllKeys,
+    clear
   }
   
   database = SQLite.openDatabase({...defaultConfig, ...config}, (db) => {
@@ -140,6 +156,7 @@ export default function SQLiteStorage(SQLite = {}, config = {}) {
     getItem: (...args) => api.getItem(...args),
     setItem: (...args) => api.setItem(...args),
     removeItem: (...args) => api.removeItem(...args),
-    getAllKeys: (...args) => api.getAllKeys(...args)
+    getAllKeys: (...args) => api.getAllKeys(...args),
+    clear: (...args) => api.clear(...args)
   }
 };

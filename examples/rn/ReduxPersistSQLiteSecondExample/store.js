@@ -1,5 +1,5 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
-import { persistStore, autoRehydrate } from 'redux-persist'
+import { persistStore, persistReducer } from 'redux-persist'
 import {createLogger} from 'redux-logger';
 import thunk from 'redux-thunk';
 import todoReducer from './reducers/todo-reducers';
@@ -18,19 +18,14 @@ const logger = createLogger({
 SQLite.DEBUG(true);
 SQLite.enablePromise(true);
 
-
 const persistConfig = {
+  key: 'root',
   storage: storeEngine,
   debug: true
-};
-// const persistedReducer = persistReducer(persistConfig, todoReducer);
-// let store = createStore(persistedReducer, {}, applyMiddleware([thunk, logger]));
+}
 
-const store = createStore(
-  todoReducer,
-  undefined,
-  compose(applyMiddleware(thunk, logger),
-  autoRehydrate())
-);
-const persistor = persistStore(store, {storage: storeEngine}, () => console.log('hi'));
-export { store, storeEngine };
+const persistedReducer = persistReducer(persistConfig, todoReducer);
+let store = createStore(persistedReducer, undefined, compose(applyMiddleware(thunk, logger)));
+
+const persistor = persistStore(store);
+export { store, storeEngine, persistor };

@@ -1,5 +1,5 @@
 {
-  "name": "ReduxPersistSQLiteExample",
+  "name": "ReduxPersistSQLiteSecondExample",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
     "redux": "^3.7.2",
     "redux-actions": "^2.3.0",
     "redux-logger": "^3.0.6",
-    "redux-persist": "^4.5.0",
+    "redux-persist": "^5.9.1",
     "redux-persist-sqlite-storage": "^1.0.2",
     "redux-thunk": "^2.2.0"
   },
