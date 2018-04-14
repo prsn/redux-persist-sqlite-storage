@@ -1,10 +1,12 @@
 /**
- * Store engine design to use SQLite DB to store key value pair.
- * This engine confirm to following AsyncStorage API
+ * SQLite store adaptor designed to use with redux-persist. This small piece of code can also be used
+ * as an interface between application and SQLite storage. Functions signature are same as AsyncStorage.
+ * 
  * getItem(key);
  * setitem(key, value);
  * removeItem(key);
  * getAllKeys();
+ * clear();
  * 
  * All the method above returns Promise object.
  */
@@ -144,11 +146,11 @@ export default function SQLiteStorage(SQLite = {}, config = {}) {
       tx.executeSql(`CREATE TABLE IF NOT EXISTS store (key, value)`);
     }, error => {
       api = nullDB;
-      console.log('Unable to create table', error);
+      console.warn('Unable to create table', error);
     });
   }, error => {
     api = nullDB;
-    console.log('Unable to open database', error)
+    console.warn('Unable to open database', error)
   });
   
 
