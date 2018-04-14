@@ -1,33 +1,32 @@
-# Library is not ready yet, performing tests over various version
 # redux-persist-sqlite-storage
 
-A redux-persist store engine that uses SQLite database to persist store.
+A redux-persist store adaptor which uses SQLite database to persist store.
 
 # Motivation
 
-By default redux-persist uses `AsyncStorage` as storage engine. Any RN apps which has huge data, experience performance issue a lot.
-This is a work around to overcome AsyncStorage performance limitaton in RN applications.
+By default redux-persist uses `AsyncStorage` as storage engine in react-native. This is a drop-in replacemet of `AsyncStorage`.
 
-This library is inspired by Chris Brody's `Cordova SQLite plugin` and `react-native-sqlite-storage`.
+The library is inspired by `react-native-sqlite-storage`.
 
 # Instal
 ```bash
 npm install --save redux-persist-sqlite-storage
 ```
 
+Please do follow the installation steps to install `react-native-sqlite-storage`.
+
 # Usages
-First configure SQLite from below links based on your requirement
-1. https://github.com/andpor/react-native-sqlite-storage - react-native (tested)
-2. https://github.com/litehelpers/Cordova-sqlite-storage - (not tested yet)
+First configure SQLite from below link
+1. https://github.com/andpor/react-native-sqlite-storage
 
 Follow below steps after you have successfully configured the SQLite
 
 ```Javascript
 import SQLiteStorage from 'redux-persist-sqlite-storage';
+import SQLite from 'react-native-sqlite-storage';
+// Considering SQLite object is defined / imported
 
-// Considering SQLite object is configured
-
-// Pass config any valid configuration applied to SQLite based as per above 2 links
+// Pass any valid configuration as `config` parameter applied to react-native-sqlite-storage as per above link
 const storeEngine = SQLiteStorage(SQLite, config);
 
 // Now pass the storeEngine as value of store while configuring redux-persist
@@ -39,7 +38,7 @@ const persistConfig = {
 
 ```
 
-Please note that, the `config` object will take any valid configuration as accepted by `Cordova-sqlite-storage`.
+Please note that, the `config` object will take any valid configuration as accepted by `react-native-sqlite-storage`.
 The default configuration only consider `name` and `location`
 
 ```Javascript
@@ -49,7 +48,7 @@ const defaultConfig = {
 };
 ```
 
-The object return by `SQLiteStorage` function has 4 methods and each of the method returns `Promise` as well as call callback upon completion of any operation (compatable with redux-persist 5.x.x version)
+The object return by `SQLiteStorage` function has 5 methods and each of the method returns `Promise` as well as callback upon completion of any operation (compatable with redux-persist 5.x.x version)
 
 Following functions are supported
 
@@ -65,11 +64,17 @@ removeItem(key: string, [callback]: ?(error: ?Error) => void)
 ```Javascript
 getAllKeys([callback]: ?(error: ?Error, keys: ?Array<string>) => void)
 ```
+```Javascript
+clear([callback]: ?(error: ?Error) => void)
+```
 
 Above methods confirms to `AsyncStorage` method signatures
 
+# Tested under following enviornments
+Examples are located at `examples\rn` directory
+
+1. `redux-persist@4.5.0`
+2. `redux-persist@5.9.1`
+
 # Future enhancements
 Will support all of the methods supported by AsyncStorage.
-
-# Tested under following enviornments
-1. `redux-persist@4.5.0`
