@@ -1,6 +1,6 @@
 {
   "name": "redux-persist-sqlite-storage",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Redux persist adaptor for SQLite storage",
   "main": "index.js",
   "scripts": {
