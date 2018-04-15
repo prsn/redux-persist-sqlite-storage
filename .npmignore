@@ -1,0 +1,7 @@
+.babelrc
+.eslintrc.js
+.flowconfig
+.travis.yml
+.idea/**
+examples/**
+docs/*
