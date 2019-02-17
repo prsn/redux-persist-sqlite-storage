@@ -8,7 +8,7 @@ By default redux-persist uses `AsyncStorage` as storage engine in react-native. 
 
 The library is inspired by `react-native-sqlite-storage`.
 
-# Instal
+# Install
 ```bash
 npm install --save redux-persist-sqlite-storage
 ```
