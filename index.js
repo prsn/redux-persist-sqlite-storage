@@ -123,7 +123,7 @@ export default function SQLiteStorage(SQLite = {}, config = {}) {
       dbResolver.then( db => {
         db.transaction((tx) => {
           tx.executeSql(
-            'SELECT * FROM store', [],
+            'SELECT key FROM store', [],
             (tx, rs) => {
               const result = [];
               for( let i = 0, il = rs.rows.length; i < il; i++) {
